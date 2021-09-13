@@ -1,10 +1,13 @@
 package com.java.userapi.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ErrorResponse
 {
     public ErrorResponse(String message, List<String> details, Integer statusCode) {
+        this();
         this.message = message;
         this.details = details;
         this.statusCode = statusCode;
@@ -15,6 +18,13 @@ public class ErrorResponse
         this.message = message;
         this.details = details;
     }
+
+    private ErrorResponse() {
+        timestamp = LocalDateTime.now();
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+    private LocalDateTime timestamp;
 
     //General error message about nature of error
     private String message;

@@ -21,6 +21,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
 
     public static final Integer BAD_REQUEST = 400;
     public static final Integer NOT_FOUND = 404;
+    public static final Integer CONFLICT = 409;
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex, WebRequest request) {
@@ -30,11 +31,19 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public final ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex,  WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse("User already Exists", details, CONFLICT);
+        return new ResponseEntity(error, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(ValidationException.class)
     public final ResponseEntity<Object> handleValidationException(ValidationException ex,  WebRequest request) {
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
-        ErrorResponse error = new ErrorResponse("Validation Failed", details, BAD_REQUEST);
+        ErrorResponse error = new ErrorResponse("Validation Error", details, BAD_REQUEST);
         return new ResponseEntity(error, HttpStatus.BAD_REQUEST);
     }
 

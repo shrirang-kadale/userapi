@@ -2,32 +2,48 @@ package com.java.userapi.Model;
 
 import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "users")
 public class UserModel {
 
+    @Id
+    private String userId;
     @NotEmpty(message = "First Name can not be empty")
     private String firstName;
     @NotEmpty(message = "Last Name can not be empty")
     private String lastName;
     private LocalDate DOB;
     private String gender;
-    @Id
     @NotEmpty(message = "User Name can not be empty")
-    private String username;
+    private String userName;
     @NotEmpty(message = "Password Name can not be empty")
     private String password;
 
-    public UserModel(String firstName, String lastName, LocalDate DOB, String gender, String username, String password) {
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public UserModel setUserId(String userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public UserModel(String userId, String firstName, String lastName, LocalDate DOB, String gender, String userName, String password) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.DOB = DOB;
         this.gender = gender;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
+    }
+
+    public UserModel() {
     }
 
     public String getFirstName() {
@@ -66,12 +82,12 @@ public class UserModel {
         return this;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public UserModel setUsername(String username) {
-        this.username = username;
+    public UserModel setUserName(String userName) {
+        this.userName = userName;
         return this;
     }
 

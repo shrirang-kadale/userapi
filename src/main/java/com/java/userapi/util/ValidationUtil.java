@@ -9,7 +9,7 @@ public class ValidationUtil {
 
         if(Objects.isNull(userModel.getFirstName()) &&
                 Objects.isNull(userModel.getLastName()) &&
-                Objects.isNull(userModel.getUsername()) &&
+                Objects.isNull(userModel.getUserName()) &&
                 Objects.isNull(userModel.getPassword())) {
              throw new ValidationException("Required fields are missing");
         }
