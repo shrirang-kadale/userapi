@@ -1,6 +1,4 @@
 package com.java.userapi.exception;
-
-import com.java.userapi.Constants.AppConstants;
 import java.util.ArrayList;
 import java.util.List;
 

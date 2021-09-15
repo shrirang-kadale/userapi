@@ -13,7 +13,7 @@ public interface UserService {
 
     Optional<UserModel> getUserById(String userId);
 
-/*    void updateUser(UserModel user);
+    void updateUser(String user);
 
-    void deleteUser(String userId);*/
+    void deleteUser(String userId);
 }

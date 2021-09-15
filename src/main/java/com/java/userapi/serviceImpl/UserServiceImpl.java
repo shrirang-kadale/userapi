@@ -2,6 +2,7 @@ package com.java.userapi.serviceImpl;
 
 import com.java.userapi.Model.UserModel;
 import com.java.userapi.exception.UserAlreadyExistsException;
+import com.java.userapi.exception.UserNotFoundException;
 import com.java.userapi.repository.UserRepository;
 import com.java.userapi.service.UserService;
 import java.util.List;
@@ -55,13 +56,20 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId);
     }
 
-/*    @Override
-    public void updateUser(UserModel user) {
-        userRepository.save(user);
+    @Override
+    public void updateUser(String userId) {
+        Optional<UserModel> user = userRepository.findById(userId);
+
+        if (user.isPresent()) {
+            userRepository.save(user.get());
+        } else {
+            throw new UserNotFoundException("User not Found");
+        }
+
     }
 
     @Override
     public void deleteUser(String userId) {
         userRepository.deleteById(userId);
-    }*/
+    }
 }

@@ -5,6 +5,8 @@ import com.java.userapi.exception.UserAlreadyExistsException;
 import com.java.userapi.service.UserService;
 import java.util.List;
 import java.util.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    private static final Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -27,7 +31,7 @@ public class UserController {
      */
     @PostMapping(value = "/register")
     public UserModel userRegistration(@Validated @RequestBody UserModel user) throws UserAlreadyExistsException {
-
+    logger.info("log4j implementation");
     return userService.registerUser(user);
 
     }
@@ -54,14 +58,18 @@ public class UserController {
         return userService.getUserById(userId);
     }
 
-/*    @PutMapping(value = "/update")
-    public void updateUser(@RequestBody UserModel user) {
-        userService.updateUser(user);
+    @PutMapping(value = "/update")
+    public void updateUser(@RequestParam(name = "userId") String userId) {
+        userService.updateUser(userId);
     }
 
-    @DeleteMapping(value = "/delete")
+    /**
+     * API to delete the user by userId
+     * @param userId
+     */
+    @DeleteMapping(value = "/delete/{userId}")
     public void deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
-    }*/
+    }
 
 }
