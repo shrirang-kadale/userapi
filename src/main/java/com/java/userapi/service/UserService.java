@@ -5,6 +5,9 @@ import com.java.userapi.exception.UserAlreadyExistsException;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Declares methods which provide CRUD operations on User
+ */
 public interface UserService {
 
     UserModel registerUser(UserModel user) throws UserAlreadyExistsException;

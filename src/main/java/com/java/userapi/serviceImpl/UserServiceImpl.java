@@ -8,9 +8,14 @@ import com.java.userapi.service.UserService;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Declares implementation methods for CRUD operations on User
+ */
+@Log4j2
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -28,9 +33,12 @@ public class UserServiceImpl implements UserService {
 
         UserModel newUser = userRepository.findByUserName(user.getUserName());
         if (Objects.isNull(newUser)) {
-            return userRepository.save(user);
+            UserModel save = userRepository.save(user);
+            log.info(save);
+            return save;
         } else {
-            throw new UserAlreadyExistsException("The username is already in use, please try a different email address.");
+            log.error("The username is already in use, please try a different userName.");
+            throw new UserAlreadyExistsException("The username is already in use, please try a different userName.");
         }
     }
 
@@ -41,7 +49,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserModel> getUserByFirstName(String name) {
-
         List<UserModel> user = userRepository.findByFirstName(name);
         return user;
     }
@@ -63,7 +70,8 @@ public class UserServiceImpl implements UserService {
         if (user.isPresent()) {
             userRepository.save(user.get());
         } else {
-            throw new UserNotFoundException("User not Found");
+            log.error("User Not Found");
+            throw new UserNotFoundException("User Not Found");
         }
 
     }

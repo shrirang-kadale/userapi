@@ -5,20 +5,18 @@ import com.java.userapi.exception.UserAlreadyExistsException;
 import com.java.userapi.service.UserService;
 import java.util.List;
 import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * User Controller
+ * Provide CRUD operations for Users
  */
+@Log4j2
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-
-    private static final Logger logger = LogManager.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -31,7 +29,7 @@ public class UserController {
      */
     @PostMapping(value = "/register")
     public UserModel userRegistration(@Validated @RequestBody UserModel user) throws UserAlreadyExistsException {
-    logger.info("log4j implementation");
+    log.info("User Registration API");
     return userService.registerUser(user);
 
     }
@@ -43,7 +41,7 @@ public class UserController {
      */
     @GetMapping(value = "/getUser")
     public List<UserModel> getUserByName(@RequestParam(name = "firstName") String firstName) {
-
+        log.info("API to get all users by their firstName");
         return userService.getUserByFirstName(firstName);
     }
 
@@ -54,12 +52,13 @@ public class UserController {
      */
     @GetMapping(value = "/getById")
     public Optional<UserModel> getUserById(@RequestParam(name = "userId") String userId) {
-
+        log.info("API to get all users by userId");
         return userService.getUserById(userId);
     }
 
     @PutMapping(value = "/update")
     public void updateUser(@RequestParam(name = "userId") String userId) {
+        log.info("API to update user by userId");
         userService.updateUser(userId);
     }
 
@@ -69,6 +68,7 @@ public class UserController {
      */
     @DeleteMapping(value = "/delete/{userId}")
     public void deleteUser(@PathVariable String userId) {
+        log.info("API to delete user by userId");
         userService.deleteUser(userId);
     }
 
